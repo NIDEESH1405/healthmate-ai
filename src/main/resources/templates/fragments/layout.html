@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- ============================================================ NAVBAR -->
+<div th:fragment="navbar(active)" class="navbar">
+  <div class="navbar-inner">
+    <a href="/" class="brand" style="text-decoration:none;">
+      <span class="brand-mark">H+</span>
+      <span>HealthMate AI</span>
+    </a>
+    <nav class="nav-links">
+      <a href="/" th:classappend="${active == 'home'} ? 'active' : ''">Home</a>
+      <a href="/agents/appointments" th:classappend="${active == 'appointments'} ? 'active' : ''">Appointments</a>
+      <a href="/agents/symptom-checker" th:classappend="${active == 'symptom'} ? 'active' : ''">Symptom Checker</a>
+      <a href="/agents/report-summarizer" th:classappend="${active == 'report'} ? 'active' : ''">Report Summary</a>
+      <a href="/agents/reminders" th:classappend="${active == 'reminder'} ? 'active' : ''">Reminders</a>
+      <a href="/agents/hospital-info" th:classappend="${active == 'hospital'} ? 'active' : ''">Hospital Info</a>
+    </nav>
+  </div>
+</div>
+
+<!-- ============================================================ DISCLAIMER STRIP -->
+<div th:fragment="disclaimer-strip" class="disclaimer-strip">
+  <strong>Informational only:</strong> HealthMate AI does not diagnose conditions or replace professional medical care. In an emergency, contact local emergency services immediately.
+</div>
+
+<!-- ============================================================ FOOTER -->
+<footer th:fragment="footer">
+  <div class="container">
+    <p style="margin-bottom:6px;">HealthMate AI — a demonstration multi-agent healthcare assistant. Informational only; not a substitute for professional medical advice, diagnosis, or treatment.</p>
+    <p style="margin:0; color: var(--ink-faint);">&copy; 2026 HealthMate AI</p>
+  </div>
+</footer>
+
+</body>
+</html>

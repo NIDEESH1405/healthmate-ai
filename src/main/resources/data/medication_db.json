@@ -1,0 +1,68 @@
+{
+  "medications": [
+    {
+      "name": "Paracetamol",
+      "aliases": ["Acetaminophen", "Tylenol", "Crocin"],
+      "category": "Analgesic / Antipyretic",
+      "commonUse": "Relief of mild to moderate pain and fever",
+      "typicalFrequency": "Every 6-8 hours as needed, not exceeding 4 doses per day",
+      "notes": "Widely used and generally well tolerated at recommended doses; exceeding the daily limit can stress the liver."
+    },
+    {
+      "name": "Amoxicillin",
+      "aliases": ["Amoxil"],
+      "category": "Antibiotic (Penicillin group)",
+      "commonUse": "Bacterial infections of the ear, throat, sinuses, and respiratory tract",
+      "typicalFrequency": "Every 8 hours, for the full prescribed course",
+      "notes": "Should be taken for the complete duration prescribed even if symptoms improve early, to avoid antibiotic resistance."
+    },
+    {
+      "name": "Metformin",
+      "aliases": ["Glucophage"],
+      "category": "Antidiabetic (Biguanide)",
+      "commonUse": "Blood sugar management in type 2 diabetes",
+      "typicalFrequency": "Once or twice daily with meals",
+      "notes": "Usually taken with food to reduce stomach upset; routine monitoring of kidney function is often recommended."
+    },
+    {
+      "name": "Atorvastatin",
+      "aliases": ["Lipitor"],
+      "category": "Statin (lipid-lowering agent)",
+      "commonUse": "Lowering LDL cholesterol and reducing cardiovascular risk",
+      "typicalFrequency": "Once daily, typically in the evening",
+      "notes": "Grapefruit juice can interact with statins; periodic liver function checks are commonly advised."
+    },
+    {
+      "name": "Amlodipine",
+      "aliases": ["Norvasc"],
+      "category": "Calcium channel blocker",
+      "commonUse": "Management of high blood pressure and certain types of chest pain",
+      "typicalFrequency": "Once daily",
+      "notes": "Mild ankle swelling is a recognised side effect; blood pressure should be monitored regularly."
+    },
+    {
+      "name": "Omeprazole",
+      "aliases": ["Prilosec"],
+      "category": "Proton pump inhibitor",
+      "commonUse": "Reducing stomach acid for reflux, ulcers, and heartburn",
+      "typicalFrequency": "Once daily before breakfast",
+      "notes": "Best taken on an empty stomach roughly 30 minutes before eating for optimal effect."
+    },
+    {
+      "name": "Cetirizine",
+      "aliases": ["Zyrtec"],
+      "category": "Antihistamine",
+      "commonUse": "Relief of allergy symptoms such as sneezing, itching, and runny nose",
+      "typicalFrequency": "Once daily",
+      "notes": "May cause mild drowsiness in some individuals; non-drowsy for most adults at standard doses."
+    },
+    {
+      "name": "Ibuprofen",
+      "aliases": ["Advil", "Brufen"],
+      "category": "NSAID (anti-inflammatory)",
+      "commonUse": "Pain relief, inflammation, and fever reduction",
+      "typicalFrequency": "Every 6-8 hours with food, not exceeding label limits",
+      "notes": "Taking with food reduces stomach irritation; not typically recommended for prolonged unsupervised use."
+    }
+  ]
+}

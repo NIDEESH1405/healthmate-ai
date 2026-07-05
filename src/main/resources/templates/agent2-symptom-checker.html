@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Symptom Checker — HealthMate AI</title>
+  <link rel="stylesheet" th:href="@{/css/theme.css}">
+</head>
+<body>
+<div class="page-shell">
+  <div th:replace="~{fragments/layout :: navbar('symptom')}"></div>
+  <div th:replace="~{fragments/layout :: disclaimer-strip}"></div>
+
+  <main class="main-content">
+    <div class="container" style="max-width:780px;">
+      <div class="agent-header">
+        <div class="agent-icon" style="background:var(--agent-symptom); color:white;" th:insert="~{fragments/icons :: pulse}"></div>
+        <div>
+          <h1>Symptom Checker</h1>
+          <p>A guided conversation to help point you to the right kind of specialist. This is not a diagnosis.</p>
+        </div>
+      </div>
+
+      <div class="disclaimer-box">
+        <span th:insert="~{fragments/icons :: alert}"></span>
+        <span><strong>In an emergency</strong> — chest pain with breathlessness, severe bleeding, sudden weakness, or loss of consciousness — call your local emergency number immediately instead of using this tool.</span>
+      </div>
+
+      <!-- ============================ INTAKE FORM (no session yet) ============================ -->
+      <div class="card" th:if="${symptomSession == null}">
+        <div class="card-header"><h2>Tell us what's going on</h2></div>
+        <form th:action="@{/agents/symptom-checker/start}" method="post">
+          <div class="form-group">
+            <label>Affected body area(s)</label>
+            <div class="checkbox-grid">
+              <label class="checkbox-pill"><input type="checkbox" name="bodyAreas" value="Head"> Head</label>
+              <label class="checkbox-pill"><input type="checkbox" name="bodyAreas" value="Chest"> Chest</label>
+              <label class="checkbox-pill"><input type="checkbox" name="bodyAreas" value="Abdomen"> Abdomen</label>
+              <label class="checkbox-pill"><input type="checkbox" name="bodyAreas" value="Back"> Back</label>
+              <label class="checkbox-pill"><input type="checkbox" name="bodyAreas" value="Arms/Hands"> Arms / Hands</label>
+              <label class="checkbox-pill"><input type="checkbox" name="bodyAreas" value="Legs/Feet"> Legs / Feet</label>
+              <label class="checkbox-pill"><input type="checkbox" name="bodyAreas" value="Skin"> Skin</label>
+              <label class="checkbox-pill"><input type="checkbox" name="bodyAreas" value="Throat/ENT"> Throat / ENT</label>
+              <label class="checkbox-pill"><input type="checkbox" name="bodyAreas" value="General/Whole body"> General / Whole body</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="severity">Severity <span id="severityLabel" class="severity-value">5</span> / 10</label>
+            <input type="range" id="severity" name="severity" min="1" max="10" value="5">
+            <div class="severity-readout"><span>Mild</span><span>Severe</span></div>
+          </div>
+
+          <div class="form-group">
+            <label for="description">Describe what you're experiencing</label>
+            <textarea id="description" name="description" placeholder="E.g. dull ache since yesterday morning, worse after eating..."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-block" style="background:var(--agent-symptom); color:white;">Start symptom check</button>
+        </form>
+      </div>
+
+      <!-- ============================ ACTIVE CONVERSATION ============================ -->
+      <div class="card" th:if="${symptomSession != null and !symptomSession.assessmentComplete}">
+        <div class="card-header">
+          <h2>Conversation</h2>
+          <span class="badge badge-neutral" th:text="'Question ' + ${symptomSession.clarifyingQuestionsAsked} + ' of 3'"></span>
+        </div>
+        <div class="chat-window">
+          <div th:each="msg : ${symptomSession.conversation}"
+               th:if="${msg.role != 'system'}"
+               th:class="'chat-bubble ' + (${msg.role == 'user'} ? 'user' : 'assistant')"
+               th:text="${msg.content}"></div>
+        </div>
+        <form th:action="@{/agents/symptom-checker/answer}" method="post" class="flex" style="gap:10px;">
+          <input type="text" name="answer" placeholder="Type your answer..." required style="flex:1;">
+          <button type="submit" class="btn" style="background:var(--agent-symptom); color:white;">Send</button>
+        </form>
+      </div>
+
+      <!-- ============================ FINAL ASSESSMENT ============================ -->
+      <div class="card" th:if="${symptomSession != null and symptomSession.assessmentComplete}">
+        <div class="card-header">
+          <h2>Assessment</h2>
+          <span class="badge"
+                th:classappend="${symptomSession.urgencyLevel == 'Seek immediate care'} ? 'badge-urgent' : (${symptomSession.urgencyLevel == 'Routine'} ? 'badge-routine' : 'badge-soon')"
+                th:text="${symptomSession.urgencyLevel}"></span>
+        </div>
+        <p><strong>Suggested specialist:</strong> <span th:text="${symptomSession.specialistType}"></span></p>
+        <p th:text="${symptomSession.assessmentSummary}"></p>
+        <div class="flex gap-8" style="margin-top:18px; flex-wrap:wrap;">
+          <a th:href="@{/agents/appointments}" class="btn" style="background:var(--agent-appointment); color:white;">Book with a specialist →</a>
+          <form th:action="@{/agents/symptom-checker/reset}" method="post">
+            <button type="submit" class="btn btn-secondary">Start new conversation</button>
+          </form>
+        </div>
+      </div>
+
+      <div th:if="${symptomSession != null}" style="text-align:right; margin-top:12px;">
+        <form th:action="@{/agents/symptom-checker/reset}" method="post">
+          <button type="submit" class="btn btn-secondary btn-sm">Reset conversation</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <div th:replace="~{fragments/layout :: footer}"></div>
+</div>
+<script th:src="@{/js/agent2.js}"></script>
+</body>
+</html>

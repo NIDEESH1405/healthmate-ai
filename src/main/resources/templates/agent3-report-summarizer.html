@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medical Report Summarizer — HealthMate AI</title>
+  <link rel="stylesheet" th:href="@{/css/theme.css}">
+</head>
+<body>
+<div class="page-shell">
+  <div th:replace="~{fragments/layout :: navbar('report')}"></div>
+  <div th:replace="~{fragments/layout :: disclaimer-strip}"></div>
+
+  <main class="main-content">
+    <div class="container">
+      <div class="agent-header">
+        <div class="agent-icon" style="background:var(--agent-report); color:white;" th:insert="~{fragments/icons :: document}"></div>
+        <div>
+          <h1>Medical Report Summarizer</h1>
+          <p>Upload a PDF lab or diagnostic report for a plain-language summary. We store only the summary, never the report file or its raw text.</p>
+        </div>
+      </div>
+
+      <div th:if="${uploadError != null}" class="alert alert-error" th:text="${uploadError}"></div>
+
+      <div style="display:grid; grid-template-columns: 1.2fr 1fr; gap:24px;">
+        <div>
+          <div class="card" th:if="${reportSession == null}">
+            <div class="card-header"><h2>Upload a report</h2></div>
+            <form th:action="@{/agents/report-summarizer/upload}" method="post" enctype="multipart/form-data">
+              <div class="form-group">
+                <label for="file">PDF file</label>
+                <input type="file" id="file" name="file" accept="application/pdf" required>
+              </div>
+              <button type="submit" class="btn btn-block" style="background:var(--agent-report); color:white;">Analyze report</button>
+            </form>
+          </div>
+
+          <div class="card" th:if="${reportSession != null}">
+            <div class="card-header">
+              <h2 th:text="${reportSession.fileName}">Report</h2>
+              <form th:action="@{/agents/report-summarizer/clear}" method="post">
+                <button type="submit" class="btn btn-secondary btn-sm">Clear / new upload</button>
+              </form>
+            </div>
+            <p th:text="${reportSession.summary}"></p>
+
+            <div class="section-title">Flagged values</div>
+            <div th:if="${#lists.isEmpty(reportSession.findings)}" class="empty-state">No specific values were extracted from this report.</div>
+            <div th:each="f : ${reportSession.findings}" class="list-row">
+              <div class="list-row-main">
+                <span class="list-row-title" th:text="${f.label}"></span>
+                <span class="list-row-sub" th:text="${f.value}"></span>
+              </div>
+              <span class="badge"
+                    th:classappend="${f.status == 'Normal'} ? 'badge-normal' : (${f.status == 'High'} ? 'badge-high' : (${f.status == 'Low'} ? 'badge-low' : 'badge-critical'))"
+                    th:text="${f.status}"></span>
+            </div>
+
+            <div class="flex gap-8" style="margin-top:18px;">
+              <a th:href="@{/agents/report-summarizer/download}" class="btn btn-secondary">Download summary (.txt)</a>
+            </div>
+          </div>
+
+          <div class="card" th:if="${reportSession != null}">
+            <div class="card-header"><h3>Ask a follow-up question</h3></div>
+            <div class="chat-window">
+              <div th:each="msg : ${reportSession.followUpConversation}"
+                   th:class="'chat-bubble ' + (${msg.role == 'user'} ? 'user' : 'assistant')"
+                   th:text="${msg.content}"></div>
+              <div th:if="${#lists.isEmpty(reportSession.followUpConversation)}" class="empty-state">Ask about any value or term in your report — answers are grounded only in this document.</div>
+            </div>
+            <form th:action="@{/agents/report-summarizer/ask}" method="post" class="flex" style="gap:10px;">
+              <input type="text" name="question" placeholder="E.g. what does my LDL value mean?" required style="flex:1;">
+              <button type="submit" class="btn" style="background:var(--agent-report); color:white;">Ask</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3>Recent reports</h3></div>
+          <div th:if="${#lists.isEmpty(recentReports)}" class="empty-state">No reports analyzed yet.</div>
+          <div th:each="r : ${recentReports}" class="list-row">
+            <div class="list-row-main">
+              <span class="list-row-title" th:text="${r.fileName}"></span>
+              <span class="list-row-sub" th:text="${#temporals.format(r.createdAt, 'd MMM, h:mm a')}"></span>
+            </div>
+            <span class="badge" th:classappend="${r.flaggedCount > 0} ? 'badge-high' : 'badge-normal'"
+                  th:text="${r.flaggedCount} + ' flagged'"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div th:replace="~{fragments/layout :: footer}"></div>
+</div>
+</body>
+</html>

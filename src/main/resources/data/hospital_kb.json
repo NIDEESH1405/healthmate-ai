@@ -1,0 +1,102 @@
+{
+  "hospitalName": "HealthMate General Hospital",
+  "topics": [
+    {
+      "id": "departments",
+      "title": "Departments & Doctors",
+      "icon": "stethoscope",
+      "keywords": ["department", "doctor", "specialist", "clinic", "cardiology", "dermatology", "orthopedics", "pediatrics", "general medicine", "ent", "neurology"],
+      "content": "HealthMate General Hospital has 6 core departments, each staffed by senior consultants available on a rotating weekly schedule.",
+      "departments": [
+        {
+          "name": "General Medicine",
+          "doctors": [
+            { "name": "Dr. Aditi Rao", "availability": ["Mon", "Tue", "Wed", "Thu", "Fri"] },
+            { "name": "Dr. Karan Mehta", "availability": ["Mon", "Wed", "Fri", "Sat"] }
+          ]
+        },
+        {
+          "name": "Cardiology",
+          "doctors": [
+            { "name": "Dr. Priya Nair", "availability": ["Mon", "Tue", "Thu"] },
+            { "name": "Dr. Suresh Iyer", "availability": ["Wed", "Fri", "Sat"] }
+          ]
+        },
+        {
+          "name": "Dermatology",
+          "doctors": [
+            { "name": "Dr. Meera Kapoor", "availability": ["Tue", "Thu", "Sat"] }
+          ]
+        },
+        {
+          "name": "Orthopedics",
+          "doctors": [
+            { "name": "Dr. Vikram Singh", "availability": ["Mon", "Tue", "Wed", "Fri"] },
+            { "name": "Dr. Ananya Das", "availability": ["Thu", "Sat"] }
+          ]
+        },
+        {
+          "name": "Pediatrics",
+          "doctors": [
+            { "name": "Dr. Lakshmi Menon", "availability": ["Mon", "Wed", "Thu", "Fri", "Sat"] }
+          ]
+        },
+        {
+          "name": "ENT",
+          "doctors": [
+            { "name": "Dr. Rohan Verma", "availability": ["Tue", "Wed", "Fri"] }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hours",
+      "title": "Operating Hours",
+      "icon": "clock",
+      "keywords": ["hours", "timing", "open", "close", "opd", "weekend", "sunday", "holiday"],
+      "content": "Outpatient (OPD) services run Monday to Saturday, 8:00 AM to 8:00 PM, with a lunch break for administrative counters from 1:00 PM to 2:00 PM. The Emergency department operates 24x7, every day including Sundays and public holidays. Diagnostic labs are open 7:00 AM to 9:00 PM on weekdays and 7:00 AM to 5:00 PM on Saturdays. The hospital is closed for routine OPD on Sundays and gazetted public holidays, though emergency and pharmacy services remain active."
+    },
+    {
+      "id": "billing",
+      "title": "Billing & Insurance",
+      "icon": "receipt",
+      "keywords": ["billing", "payment", "insurance", "cashless", "reimbursement", "cost", "fees", "invoice"],
+      "content": "Billing counters are located on the ground floor near the main entrance and accept cash, debit/credit cards, UPI, and net banking. HealthMate General Hospital is empanelled with major insurance providers for cashless treatment; patients should carry their insurance card and a government photo ID to the TPA desk before admission. For reimbursement claims, itemised bills and discharge summaries can be requested from the billing counter within 7 working days of discharge. Consultation fees vary by department and are displayed at each OPD counter; a detailed cost estimate can be requested before any planned procedure."
+    },
+    {
+      "id": "labs",
+      "title": "Diagnostic Labs & Imaging",
+      "icon": "flask",
+      "keywords": ["lab", "blood test", "x-ray", "mri", "ct scan", "ultrasound", "pathology", "diagnostic", "report", "sample"],
+      "content": "The diagnostic wing offers blood pathology, urine analysis, X-ray, ultrasound, CT scan, and MRI services. Walk-in blood sample collection is available from 7:00 AM to 11:00 AM for fasting tests; general samples are accepted throughout lab hours. Most routine blood test reports are ready within 24 hours and can be collected in person or downloaded via the patient portal. CT and MRI scans require prior appointment booking through the radiology desk, and patients are advised to arrive 30 minutes early with any previous scan films or referral notes."
+    },
+    {
+      "id": "parking",
+      "title": "Parking & Access",
+      "icon": "car",
+      "keywords": ["parking", "car", "vehicle", "entrance", "wheelchair", "accessibility", "shuttle"],
+      "content": "Visitor parking is available in the multi-level parking structure adjacent to Gate 2, with the first 30 minutes free and hourly charges thereafter. Reserved accessible parking bays are located near the main entrance ramp for patients with mobility needs, and wheelchairs are available free of charge at the main lobby help desk. A shuttle service runs every 15 minutes between the parking structure and the main building entrance during OPD hours."
+    },
+    {
+      "id": "pharmacy",
+      "title": "Pharmacy",
+      "icon": "pill",
+      "keywords": ["pharmacy", "medicine", "prescription", "drug store", "refill"],
+      "content": "The in-house pharmacy on the ground floor is open 24x7 and fulfils both walk-in and inpatient prescriptions. Prescription refills for chronic conditions can be pre-ordered through the patient portal 48 hours in advance for faster pickup. Generic substitutes are offered where clinically appropriate, and pharmacists are available for medication counselling on request."
+    },
+    {
+      "id": "emergency",
+      "title": "Emergency Services",
+      "icon": "siren",
+      "keywords": ["emergency", "ambulance", "urgent", "trauma", "critical", "24x7"],
+      "content": "The Emergency department is staffed 24x7 with trauma-trained physicians and operates on a triage priority basis rather than first-come-first-served, so critical cases are seen immediately regardless of arrival order. An ambulance dispatch service is available for the surrounding metro area; call the hospital's emergency line for immediate dispatch. Family members are asked to complete registration at the emergency reception desk while initial assessment is underway."
+    },
+    {
+      "id": "visiting",
+      "title": "Visiting Hours & Admission",
+      "icon": "bed",
+      "keywords": ["visiting", "admission", "inpatient", "ward", "icu", "discharge"],
+      "content": "General ward visiting hours are 5:00 PM to 7:00 PM daily, with a maximum of two visitors per patient at a time. ICU visiting is restricted to designated windows of 10 minutes twice daily due to infection-control protocols, coordinated with the nursing station. Planned admissions should bring a valid ID, insurance documents if applicable, and any existing medical records; the admissions desk on the ground floor handles bed allocation and advance deposits."
+    }
+  ]
+}

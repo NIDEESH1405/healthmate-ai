@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prescription Reminder — HealthMate AI</title>
+  <link rel="stylesheet" th:href="@{/css/theme.css}">
+</head>
+<body>
+<div class="page-shell">
+  <div th:replace="~{fragments/layout :: navbar('reminder')}"></div>
+  <div th:replace="~{fragments/layout :: disclaimer-strip}"></div>
+
+  <main class="main-content">
+    <div class="container">
+      <div class="agent-header">
+        <div class="agent-icon" style="background:var(--agent-reminder); color:white;" th:insert="~{fragments/icons :: pill}"></div>
+        <div>
+          <h1>Prescription Reminder</h1>
+          <p>Understand your medicines and keep a simple in-app reminder list.</p>
+        </div>
+      </div>
+
+      <div class="disclaimer-box">
+        <span th:insert="~{fragments/icons :: alert}"></span>
+        <span><strong>No real notifications are sent.</strong> Reminders are an in-app checklist only — HealthMate AI does not send push, SMS, or email alerts. Please use your phone's own alarm/reminder app for actual notifications.</span>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:24px;">
+        <div>
+          <div class="card">
+            <div class="card-header"><h2>Understand a medicine</h2></div>
+            <form th:action="@{/agents/reminders/explain}" method="post">
+              <div class="form-group">
+                <label for="medicineSelect">Choose from common medicines</label>
+                <select id="medicineSelect">
+                  <option value="">— select —</option>
+                  <option th:each="m : ${medications}" th:value="${m.name}" th:text="${m.name}"></option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="medicineName">Or type a medicine name</label>
+                <input type="text" id="medicineName" name="medicineName" placeholder="E.g. Paracetamol" required>
+              </div>
+              <button type="submit" class="btn btn-block" style="background:var(--agent-reminder); color:white;">Explain this medicine</button>
+            </form>
+
+            <div th:if="${explanation != null}" style="margin-top:18px; padding-top:18px; border-top:1px solid var(--border);">
+              <div class="card-header">
+                <h3 th:text="${explainedMedicine}">Medicine</h3>
+                <span class="badge" th:classappend="${explanation.foundInLocalDb} ? 'badge-normal' : 'badge-neutral'"
+                      th:text="${explanation.foundInLocalDb} ? 'Verified locally' : 'AI-only'"></span>
+              </div>
+              <p th:text="${explanation.explanation}"></p>
+              <p style="font-size:0.8rem; color:var(--ink-faint);" th:text="${explanation.localDbNote}"></p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header"><h2>Set a reminder</h2></div>
+            <form th:action="@{/agents/reminders/create}" th:object="${reminderRequest}" method="post">
+              <div class="form-group">
+                <label for="reminderMedicineName">Medicine name</label>
+                <input type="text" id="reminderMedicineName" th:field="*{medicineName}" placeholder="E.g. Amoxicillin">
+                <div class="field-error" th:if="${#fields.hasErrors('medicineName')}" th:errors="*{medicineName}"></div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="reminderTime">Time</label>
+                  <input type="time" id="reminderTime" th:field="*{reminderTime}">
+                  <div class="field-error" th:if="${#fields.hasErrors('reminderTime')}" th:errors="*{reminderTime}"></div>
+                </div>
+                <div class="form-group">
+                  <label for="frequency">Frequency</label>
+                  <select id="frequency" th:field="*{frequency}">
+                    <option value="">Select</option>
+                    <option value="Once daily">Once daily</option>
+                    <option value="Twice daily">Twice daily</option>
+                    <option value="Three times daily">Three times daily</option>
+                    <option value="Every 6 hours">Every 6 hours</option>
+                    <option value="Every 8 hours">Every 8 hours</option>
+                    <option value="Weekly">Weekly</option>
+                    <option value="As needed">As needed</option>
+                  </select>
+                  <div class="field-error" th:if="${#fields.hasErrors('frequency')}" th:errors="*{frequency}"></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="dosageNote">Dosage note (optional)</label>
+                <input type="text" id="dosageNote" th:field="*{dosageNote}" placeholder="E.g. 1 tablet after food">
+              </div>
+              <button type="submit" class="btn btn-block" style="background:var(--agent-reminder); color:white;">Add reminder</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h2>Upcoming reminders</h2></div>
+          <div th:if="${#lists.isEmpty(reminders)}" class="empty-state">No reminders set yet.</div>
+          <div th:each="r : ${reminders}" class="list-row">
+            <div class="list-row-main">
+              <span class="list-row-title" th:text="${r.medicineName} + ' — ' + ${r.frequency}"></span>
+              <span class="list-row-sub" th:text="${r.reminderTime} + (${r.dosageNote != null and !r.dosageNote.isEmpty()} ? ' · ' + ${r.dosageNote} : '')"></span>
+            </div>
+            <div class="list-row-actions">
+              <span class="badge" th:classappend="${r.takenToday} ? 'badge-normal' : 'badge-neutral'" th:text="${r.takenToday} ? 'Taken today' : 'Pending'"></span>
+              <form th:if="${!r.takenToday}" th:action="@{'/agents/reminders/' + ${r.id} + '/taken'}" method="post">
+                <button type="submit" class="btn btn-secondary btn-sm">Mark taken</button>
+              </form>
+              <form th:if="${r.takenToday}" th:action="@{'/agents/reminders/' + ${r.id} + '/reset'}" method="post">
+                <button type="submit" class="btn btn-secondary btn-sm">Undo</button>
+              </form>
+              <form th:action="@{'/agents/reminders/' + ${r.id} + '/remove'}" method="post">
+                <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div th:replace="~{fragments/layout :: footer}"></div>
+</div>
+<script th:src="@{/js/agent4.js}"></script>
+</body>
+</html>

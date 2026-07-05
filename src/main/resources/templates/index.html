@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HealthMate AI — Multi-Agent Healthcare Assistant</title>
+  <link rel="stylesheet" th:href="@{/css/theme.css}">
+</head>
+<body>
+<div class="page-shell">
+  <div th:replace="~{fragments/layout :: navbar('home')}"></div>
+  <div th:replace="~{fragments/layout :: disclaimer-strip}"></div>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <span class="hero-badge">✦ 5 independent AI agents · informational only</span>
+      <h1>Your calm, capable companion for everyday healthcare tasks</h1>
+      <p class="subtitle">Book appointments, understand symptoms, decode reports, manage reminders, and get hospital info — all in one place, powered by AI, grounded in facts.</p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="stat-value" th:text="${appointmentsBooked}">0</div>
+          <div class="stat-label">Appointments booked</div>
+        </div>
+        <div class="hero-stat">
+          <div class="stat-value" th:text="${activeReminders}">0</div>
+          <div class="stat-label">Active reminders</div>
+        </div>
+        <div class="hero-stat">
+          <div class="stat-value">5</div>
+          <div class="stat-label">AI agents online</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="main-content">
+    <div class="container">
+      <div class="agent-grid">
+
+        <a href="/agents/appointments" class="agent-card accent-appointment">
+          <div class="agent-icon" th:insert="~{fragments/icons :: calendar}"></div>
+          <div>
+            <h3>Appointment Scheduling</h3>
+            <p>Book with the right department and doctor, validated against real availability.</p>
+          </div>
+          <span class="agent-cta">Book now →</span>
+        </a>
+
+        <a href="/agents/symptom-checker" class="agent-card accent-symptom">
+          <div class="agent-icon" th:insert="~{fragments/icons :: pulse}"></div>
+          <div>
+            <h3>Symptom Checker</h3>
+            <p>A guided, conversational triage to point you toward the right specialist.</p>
+          </div>
+          <span class="agent-cta">Start check →</span>
+        </a>
+
+        <a href="/agents/report-summarizer" class="agent-card accent-report">
+          <div class="agent-icon" th:insert="~{fragments/icons :: document}"></div>
+          <div>
+            <h3>Medical Report Summarizer</h3>
+            <p>Upload a PDF report and get a plain-language summary with flagged values.</p>
+          </div>
+          <span class="agent-cta">Upload report →</span>
+        </a>
+
+        <a href="/agents/reminders" class="agent-card accent-reminder">
+          <div class="agent-icon" th:insert="~{fragments/icons :: pill}"></div>
+          <div>
+            <h3>Prescription Reminder</h3>
+            <p>Understand your medicines and keep a simple in-app reminder schedule.</p>
+          </div>
+          <span class="agent-cta">Manage reminders →</span>
+        </a>
+
+        <a href="/agents/hospital-info" class="agent-card accent-hospital">
+          <div class="agent-icon" th:insert="~{fragments/icons :: hospital}"></div>
+          <div>
+            <h3>Hospital Info</h3>
+            <p>Ask about departments, hours, billing, labs, and more — grounded in our KB.</p>
+          </div>
+          <span class="agent-cta">Explore →</span>
+        </a>
+
+      </div>
+
+      <div class="card" style="margin-top:48px;">
+        <div class="card-header">
+          <h2>How HealthMate AI works</h2>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:22px;">
+          <div>
+            <div class="section-title">01 · Choose an agent</div>
+            <p>Each of the five agents is purpose-built and independent — pick the one that matches your task.</p>
+          </div>
+          <div>
+            <div class="section-title">02 · Provide context</div>
+            <p>Fill a short form, upload a document, or just ask a question in plain language.</p>
+          </div>
+          <div>
+            <div class="section-title">03 · Get grounded guidance</div>
+            <p>Responses are informational only, clearly labeled, and never replace a licensed clinician.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div th:replace="~{fragments/layout :: footer}"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: healthmate-ai
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
+      - key: app.browser.auto-open
+        value: "false"
